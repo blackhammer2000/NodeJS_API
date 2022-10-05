@@ -1,5 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
+import { rootDirectoryGet } from "./routes/api.js";
+
 config();
 
 const app = express();
@@ -9,8 +11,4 @@ app.listen(PORT, () => {
   console.log(`Server is listening for requests on PORT ${PORT}`);
 });
 
-app.get("/", (_req, res) => {
-  res.json({
-    message: "hi",
-  });
-});
+app.get("/", rootDirectoryGet);
