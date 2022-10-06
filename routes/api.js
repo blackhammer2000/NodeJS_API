@@ -6,3 +6,5 @@ router.get("/students", (_req, res) => {
     message: "hi",
   });
 });
+
+module.exports = router;
