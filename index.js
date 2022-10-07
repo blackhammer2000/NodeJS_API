@@ -2,6 +2,8 @@ const express = require("express");
 const router = require("./router/routes");
 require("dotenv").config();
 
+const databaseStudentSchema = require("./schemas/student");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
