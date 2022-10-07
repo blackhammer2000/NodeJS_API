@@ -7,4 +7,10 @@ router.get("/students", (_req, res) => {
   });
 });
 
+router.post("/students", (req, res) => {
+  console.log(req);
+  const newStudent = req.body;
+  res.json(newStudent);
+});
+
 module.exports = router;
