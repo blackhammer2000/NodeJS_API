@@ -17,10 +17,3 @@ app.listen(PORT, () => {
 mongoose.connect(DB_URI, () => {
   console.log("connected to the database...");
 });
-
-// mongoose.connect(DB_URI, () => {
-//   mongoose.connection.on("connection", (err) => {
-//     if (err) console.log("error encountered..");
-//     console.log("connected to the database...");
-//   });
-// });
