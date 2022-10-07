@@ -1,4 +1,5 @@
 const express = require("express");
+const Student = require("../schemas/student");
 const router = express.Router();
 
 router.get("/students", (_req, res) => {
@@ -7,10 +8,23 @@ router.get("/students", (_req, res) => {
   });
 });
 
-router.post("/students", (req, res) => {
-  console.log(req.body);
+router.post("/students", async (req, res) => {
+  // console.log(req.body);
   const newStudent = req.body;
-  res.json(newStudent);
+
+  try {
+    const newStudentEntry = Student.create(newStudent);
+
+    if (!newStudentEntry) {
+      throw new Error("Data save process failed...");
+    }
+
+    res.json("Data saved successfully...");
+  } catch (error) {
+    res.json({
+      error: error,
+    });
+  }
 });
 
 module.exports = router;
