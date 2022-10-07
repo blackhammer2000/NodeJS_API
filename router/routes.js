@@ -8,7 +8,7 @@ router.get("/students", (_req, res) => {
 });
 
 router.post("/students", (req, res) => {
-  console.log(req);
+  console.log(req.body);
   const newStudent = req.body;
   res.json(newStudent);
 });
