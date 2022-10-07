@@ -6,7 +6,7 @@ require("dotenv").config();
 const Student = require("./schemas/student");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const DB_URI = process.env.DATABASE_URI;
 
 app.use(express.json());
