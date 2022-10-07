@@ -3,8 +3,6 @@ const router = require("./router/routes");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const Student = require("./schemas/student");
-
 const app = express();
 const PORT = process.env.PORT;
 const DB_URI = process.env.DATABASE_URI;
