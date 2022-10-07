@@ -3,7 +3,7 @@ const router = require("./router/routes");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const databaseStudentSchema = require("./schemas/student");
+const Student = require("./schemas/student");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,3 +19,10 @@ app.listen(PORT, () => {
 mongoose.connect(DB_URI, () => {
   console.log("connected to the database...");
 });
+
+// mongoose.connect(DB_URI, () => {
+//   mongoose.connection.on("connection", (err) => {
+//     if (err) console.log("error encountered..");
+//     console.log("connected to the database...");
+//   });
+// });

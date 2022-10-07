@@ -19,7 +19,7 @@ router.post("/students", async (req, res) => {
       throw new Error("Data save process failed...");
     }
 
-    res.json("Data saved successfully...");
+    res.json({ message: "Data saved successfully...", body: newStudent });
   } catch (error) {
     res.json({
       error: error,
