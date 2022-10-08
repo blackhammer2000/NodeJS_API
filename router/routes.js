@@ -2,9 +2,17 @@ const express = require("express");
 const Student = require("../schemas/student");
 const router = express.Router();
 
-router.get("/students", (_req, res) => {
-  res.json({
-    message: "hi",
+router.get("/students", async (_req, res) => {
+  Student.find((error, data) => {
+    if (!error) {
+      res.json({
+        students: data,
+      });
+    } else {
+      res.json({
+        error: error.message,
+      });
+    }
   });
 });
 

@@ -14,6 +14,12 @@ app.listen(PORT, () => {
   console.log(`Server is listening for requests on PORT ${PORT}`);
 });
 
-mongoose.connect(DB_URI, () => {
+const connection = mongoose.connect(DB_URI);
+
+connection.on("connected", () => {
   console.log("connected to the database...");
+});
+
+connection.on("disconnected", () => {
+  console.log("disconnected to the database...");
 });
