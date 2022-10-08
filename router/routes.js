@@ -34,8 +34,8 @@ router.post("/students", async (req, res) => {
   }
 });
 
-router.patch("/students", (req, res) => {
-  const { id } = req.body;
+router.patch("/students/:id", (req, res) => {
+  const { id } = req.params;
 
   Student.findByIdAndUpdate(id, { firstname: "Samuel" });
   res.json({ message: "Data successfully modified..." });
