@@ -10,7 +10,7 @@ router.get("/students", async (_req, res) => {
       });
     } else {
       res.json({
-        error: error.message,
+        err: error.message,
       });
     }
   });
