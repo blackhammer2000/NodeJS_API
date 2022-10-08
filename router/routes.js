@@ -34,4 +34,11 @@ router.post("/students", async (req, res) => {
   }
 });
 
+router.patch("/students", (req, res) => {
+  const { id } = req.body;
+
+  Student.findByIdAndUpdate(id, { firstname: "Samuel" });
+  res.json({ message: "Data successfully modified..." });
+});
+
 module.exports = router;
