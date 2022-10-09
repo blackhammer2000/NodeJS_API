@@ -5,21 +5,18 @@ const Student = require("../schemas/student");
 const router = express.Router();
 
 router.get("/students", async (_req, res) => {
-  Student.find((error, data) => {
-    if (!error) {
-      res.json({
-        students: data,
-      });
-    } else {
-      res.json({
-        err: error.message,
-      });
-    }
-  });
+  try {
+    const studentsData = await Student.find();
+
+    if (!studentsData) throw new Error("No data was found in the database");
+
+    res.json(studentsData);
+  } catch (error) {
+    res.status(500).json({ err: error });
+  }
 });
 
 router.post("/students", async (req, res) => {
-  // console.log(req.body);
   const newStudent = req.body;
 
   try {
@@ -41,9 +38,10 @@ router.patch("/students", async (req, res) => {
     const { id } = req.body;
 
     if (ObjectId.isValid(id)) {
-      const update = await db
-        .collection("students")
-        .updateOne({ _id: ObjectId(id) }, { $set: req.body.data });
+      const update = await Student.updateOne(
+        { _id: ObjectId(id) },
+        { $set: req.body.data }
+      );
 
       if (!update) {
         throw new Error("Could not update the selected document.");
@@ -63,9 +61,7 @@ router.delete("/students", async (req, res) => {
     const { id } = req.body;
 
     if (ObjectId.isValid(id)) {
-      const deletion = await db
-        .collection("students")
-        .deleteOne({ _id: ObjectId(id) });
+      const deletion = await Student.deleteOne({ _id: ObjectId(id) });
 
       if (!deletion) {
         throw new Error("Could not delete the selected document.");
