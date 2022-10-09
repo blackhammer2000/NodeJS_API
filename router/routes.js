@@ -58,20 +58,20 @@ router.patch("/students", async (req, res) => {
   }
 });
 
-router.patch("/students", async (req, res) => {
+router.delete("/students", async (req, res) => {
   try {
     const { id } = req.body;
 
     if (ObjectId.isValid(id)) {
       const update = await db
         .collection("students")
-        .updateOne({ _id: ObjectId(id) }, { $set: req.body.data });
+        .deleteOne({ _id: ObjectId(id) });
 
       if (!update) {
-        throw new Error("Could not update the selected document.");
+        throw new Error("Could not delete the selected document.");
       }
 
-      res.json({ message: "Data successfully modified..." });
+      res.json({ message: "Data successfully deleted..." });
     } else {
       res.status(404).json({ error: "Not a valid document ID." });
     }
