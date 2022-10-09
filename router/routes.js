@@ -51,10 +51,10 @@ router.patch("/students", async (req, res) => {
 
       res.json({ message: "Data successfully modified..." });
     } else {
-      res.status(500).json({ error: "Not a valid document ID." });
+      res.status(404).json({ error: "Not a valid document ID." });
     }
   } catch (err) {
-    res.json({ error: err });
+    res.status(500).json({ error: err });
   }
 });
 
