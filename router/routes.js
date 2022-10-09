@@ -46,7 +46,7 @@ router.patch("/students", async (req, res) => {
         .updateOne({ _id: ObjectId(id) }, { $set: req.body.data });
 
       if (!update) {
-        throw new Error("Could not update the document.");
+        throw new Error("Could not update the selected document.");
       }
 
       res.json({ message: "Data successfully modified..." });
