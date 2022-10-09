@@ -23,14 +23,14 @@ router.post("/students", async (req, res) => {
   const newStudent = req.body;
 
   try {
-    const newStudentEntry = Student.create(newStudent);
+    const newStudentEntry = await Student.create(newStudent);
 
     if (!newStudentEntry) {
       throw new Error("Data save process failed...");
     }
     res.json({ message: "Data saved successfully...", body: newStudent });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       error: error,
     });
   }
