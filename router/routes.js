@@ -48,12 +48,14 @@ router.patch("/students/:id", async (req, res) => {
       if (!update) {
         throw new Error("Could not update the document.");
       }
+
+      res.json({ message: "Data successfully modified..." });
+    } else {
+      res.status(500).json({ error: "Not a valid document ID." });
     }
   } catch (err) {
     res.json({ error: err.message });
   }
-
-  res.json({ message: "Data successfully modified..." });
 });
 
 module.exports = router;
