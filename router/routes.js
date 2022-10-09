@@ -36,14 +36,14 @@ router.post("/students", async (req, res) => {
   }
 });
 
-router.patch("/students/:id", async (req, res) => {
+router.patch("/students", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
 
     if (ObjectId.isValid(id)) {
       const update = await db
         .collection("students")
-        .updateOne({ _id: ObjectId(id) }, { $set: req.body });
+        .updateOne({ _id: ObjectId(id) }, { $set: req.body.data });
 
       if (!update) {
         throw new Error("Could not update the document.");
