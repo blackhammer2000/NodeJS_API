@@ -1,6 +1,5 @@
 const express = require("express");
 const { ObjectId } = require("mongodb");
-const { db } = require("../schemas/student");
 const Student = require("../schemas/student");
 const router = express.Router();
 
