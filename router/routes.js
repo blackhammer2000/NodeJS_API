@@ -1,4 +1,6 @@
 const express = require("express");
+const { ObjectId } = require("mongodb");
+const { db } = require("../schemas/student");
 const Student = require("../schemas/student");
 const router = express.Router();
 
@@ -34,10 +36,23 @@ router.post("/students", async (req, res) => {
   }
 });
 
-router.patch("/students/:id", (req, res) => {
-  const { id } = req.params;
+router.patch("/students/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  Student.findByIdAndUpdate(id, { firstname: "Samuel" });
+    if (ObjectId.isValid(id)) {
+      const update = await db
+        .collection("students")
+        .updateOne({ _id: ObjectId(id) }, { $set: req.body });
+
+      if (!update) {
+        throw new Error("Could not update the document.");
+      }
+    }
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+
   res.json({ message: "Data successfully modified..." });
 });
 
