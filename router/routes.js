@@ -24,7 +24,9 @@ router.post("/students", async (req, res) => {
     if (!newStudentEntry) {
       throw new Error("Data save process failed...");
     }
-    res.status(201).json({ message: `The data for ${newStudent.name} has been saved to the database successfully...` });
+    res.status(201).json({
+      message: `The data for ${newStudent.name} has been saved to the database successfully...`,
+    });
   } catch (error) {
     res.status(500).json({
       error: error,
@@ -48,10 +50,10 @@ router.patch("/students", async (req, res) => {
 
       res.json({ message: "Data successfully modified in the database..." });
     } else {
-      res.status(404).json({ error: "Not a valid document ID." });
+      throw new Error("Not a valid document ID.");
     }
   } catch (err) {
-    res.status(500).json({ error: err });
+    res.status(500).json({ error: err.message });
   }
 });
 
