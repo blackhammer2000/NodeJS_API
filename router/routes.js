@@ -36,12 +36,12 @@ router.post("/students", async (req, res) => {
 
 router.patch("/students", async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id, data } = req.body;
 
     if (ObjectId.isValid(id)) {
       const update = await Student.updateOne(
         { _id: ObjectId(id) },
-        { $set: req.body.data }
+        { $set: data }
       );
 
       if (!update) {
