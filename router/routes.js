@@ -35,11 +35,10 @@ router.post("/students", async (req, res) => {
   }
 });
 
-router.post("/user/register", async (req, res, next) => {
+router.post("/student/register", async (req, res, next) => {
   try {
     const isValid = await authData.validateAsync(req.body);
-    if (!isValid)
-      throw MongoCursorExhaustedError.Conflict(`Valid data format...`);
+    if (!isValid) throw createError.Conflict(`Valid data format...`);
 
     const { email, password } = req.body;
 
@@ -49,6 +48,16 @@ router.post("/user/register", async (req, res, next) => {
       throw MongoCursorExhaustedError.Conflict(
         `User with the given email already exists...`
       );
+
+    const user = new User(req.body);
+
+    const savedUser = await user.save();
+
+    res.status(201).json({ user: savedUser });
+
+    const accessToken = await signAccessToken(savedUser.id);
+
+    res.status(200).json({ token: accessToken });
   } catch (err) {
     next(err);
   }
