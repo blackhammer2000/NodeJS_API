@@ -1,6 +1,7 @@
 const express = require("express");
-const { ObjectId } = require("mongodb");
+const { ObjectId, MongoCursorExhaustedError } = require("mongodb");
 const Student = require("../schemas/student");
+const User = require("../schemas/user");
 const router = express.Router();
 
 router.get("/students", async (_req, res) => {
@@ -33,6 +34,27 @@ router.post("/students", async (req, res) => {
     });
   }
 });
+
+router.post("/user/register", async (req, res, next) => {
+  try {
+    const isValid = await authData.validateAsync(req.body);
+    if (!isValid)
+      throw MongoCursorExhaustedError.Conflict(`Valid data format...`);
+
+    const { email, password } = req.body;
+
+    const emailExists = await User.findOne({ email: email });
+
+    if (emailExists)
+      throw MongoCursorExhaustedError.Conflict(
+        `User with the given email already exists...`
+      );
+  } catch (err) {
+    next(err);
+  }
+});
+
+///////////////////////PATCH ROUTES//////////////////////////////
 
 router.patch("/students", async (req, res) => {
   try {
