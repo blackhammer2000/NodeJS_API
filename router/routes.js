@@ -70,20 +70,18 @@ router.patch("/students", async (req, res) => {
   try {
     const { id, data } = req.body;
 
-    if (ObjectId.isValid(id)) {
-      const update = await Student.updateOne(
-        { _id: ObjectId(id) },
-        { $set: data }
-      );
+    if (!ObjectId.isValid(id)) throw new Error("Not a valid document ID.");
 
-      if (!update) {
-        throw new Error("Could not update the selected document.");
-      }
+    const update = await Student.updateOne(
+      { _id: ObjectId(id) },
+      { $set: data }
+    );
 
-      res.json({ message: "Data successfully modified in the database..." });
-    } else {
-      throw new Error("Not a valid document ID.");
+    if (!update) {
+      throw new Error("Could not update the selected document.");
     }
+
+    res.json({ message: "Data successfully modified in the database..." });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
