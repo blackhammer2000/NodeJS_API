@@ -1,5 +1,6 @@
 const express = require("express");
-const { ObjectId, MongoCursorExhaustedError } = require("mongodb");
+const { ObjectId } = require("mongodb");
+const { studentBodyValidator } = require("../schemas/authData");
 const Student = require("../schemas/student");
 const User = require("../schemas/user");
 const router = express.Router();
@@ -17,9 +18,8 @@ router.get("/students", async (_req, res) => {
 });
 
 router.post("/students", async (req, res) => {
-  const newStudent = req.body;
-
   try {
+    const newStudent = req.body;
     const newStudentEntry = await Student.create(newStudent);
 
     if (!newStudentEntry) {
@@ -37,7 +37,7 @@ router.post("/students", async (req, res) => {
 
 router.post("/student/register", async (req, res, next) => {
   try {
-    const isValid = await authData.validateAsync(req.body);
+    const isValid = await studentBodyValidator.validateAsync(req.body);
     if (!isValid) throw createError.Conflict(`Valid data format...`);
 
     const { email, password } = req.body;
@@ -45,15 +45,13 @@ router.post("/student/register", async (req, res, next) => {
     const emailExists = await User.findOne({ email: email });
 
     if (emailExists)
-      throw MongoCursorExhaustedError.Conflict(
-        `User with the given email already exists...`
-      );
+      throw new Error(`User with the given email already exists...`);
 
     const user = new User(req.body);
 
     const savedUser = await user.save();
 
-    res.status(201).json({ user: savedUser });
+    res.status(201).json({ user: "savedUser" });
 
     // const accessToken = await signAccessToken(savedUser.id);
 
