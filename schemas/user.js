@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -11,6 +12,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+});
+
+userSchema.pre("save", async function (next) {
+  try {
+    const hashedPassword = await bcrypt.hash(this.password, 10);
+    this.password = hashedPassword;
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 const User = mongoose.model("user", userSchema);

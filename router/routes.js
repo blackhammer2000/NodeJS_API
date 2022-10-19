@@ -1,6 +1,9 @@
 const express = require("express");
 const { ObjectId } = require("mongodb");
-const { studentBodyValidator } = require("../schemas/authData");
+const {
+  studentBodyValidator,
+  userBodyValidator,
+} = require("../schemas/authData");
 const Student = require("../schemas/student");
 const User = require("../schemas/user");
 const router = express.Router();
