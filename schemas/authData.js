@@ -6,16 +6,10 @@ const userBodyValidator = Joi.object({
 });
 
 const studentBodyValidator = Joi.object({
-  firstname: Joi.string()
-    .lowercase()
-    .required()
-    .regex(/[a-z]g/),
-  lastname: Joi.string()
-    .lowercase()
-    .required()
-    .regex(/[a-z]g/),
+  firstname: Joi.string().lowercase().required(),
+  lastname: Joi.string().lowercase().required(),
   gender: Joi.string().required(),
-  admission_number: Joi.number().required().regex(/[0-9]/g),
+  admission_number: Joi.number().required(),
 });
 
 module.exports = { userBodyValidator, studentBodyValidator };

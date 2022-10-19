@@ -35,12 +35,12 @@ router.post("/students", async (req, res) => {
   }
 });
 
-router.post("/student/register", async (req, res, next) => {
+router.post("/user/register", async (req, res, next) => {
   try {
-    const isValid = await studentBodyValidator.validateAsync(req.body);
-    if (!isValid) throw createError.Conflict(`Valid data format...`);
+    const isValid = await userBodyValidator.validateAsync(req.body);
+    if (!isValid) throw new Error(`Valid data format...`);
 
-    const { email, password } = req.body;
+    const { email } = req.body;
 
     const emailExists = await User.findOne({ email: email });
 
