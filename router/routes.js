@@ -53,11 +53,11 @@ router.post("/user/register", async (req, res, next) => {
 
     const savedUser = await user.save();
 
-    res.status(201).json({ user: "savedUser" });
+    // res.status(201).json({ user: "savedUser" });
 
-    // const accessToken = await signAccessToken(savedUser.id);
+    const accessToken = await signAccessToken(savedUser.id);
 
-    // res.status(200).json({ token: accessToken });
+    res.status(200).json({ token: accessToken });
   } catch (err) {
     next(err);
   }
