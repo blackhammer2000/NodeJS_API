@@ -1,4 +1,6 @@
-const access = crypto.randomUUID().toString("hex");
-const refresh = crypto.randomUUID().toString("hex");
+const crypto = require("crypto");
 
-console.table(access, refresh);
+const access = crypto.randomBytes(32).toString("hex");
+const refresh = crypto.randomBytes(32).toString("hex");
+
+console.table({ access, refresh });
