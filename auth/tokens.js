@@ -21,4 +21,6 @@ module.exports = {
       resolve(token);
     });
   },
+
+  verifyAccessToken: () => {},
 };

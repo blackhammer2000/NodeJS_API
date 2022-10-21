@@ -1,9 +1,11 @@
 const express = require("express");
+const router = express.Router();
+
 const { ObjectId } = require("mongodb");
 const { studentBodyValidator, userBodyValidator } = require("../auth/authData");
+const { signAccessToken } = require("../auth/tokens");
 const Student = require("../schemas/student");
 const User = require("../schemas/user");
-const router = express.Router();
 
 router.get("/students", async (_req, res) => {
   try {
