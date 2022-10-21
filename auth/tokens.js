@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   signAccessToken: (userId) => {
     return new Promise(async (resolve, reject) => {
-      const payload = {};
+      const payload = { userId };
       const secret_key = process.env.ACCESS_TOKEN_SECRET;
       const options = {
         expiresIn: "5min",
