@@ -6,7 +6,7 @@ module.exports = {
       const payload = { userId };
       const secret_key = process.env.ACCESS_TOKEN_SECRET;
       const options = {
-        expiresIn: "5min",
+        expiresIn: "2min",
         issuer: "UserDbManager",
         audience: userId,
       };
