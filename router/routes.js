@@ -40,7 +40,7 @@ router.post("/students", async (req, res) => {
 router.post("/user/register", async (req, res, next) => {
   try {
     const isValid = await userBodyValidator.validateAsync(req.body);
-    if (!isValid) throw new Error(`Valid data format...`);
+    if (!isValid) throw new Error(`Invalid data format...`);
 
     const { email } = req.body;
 
