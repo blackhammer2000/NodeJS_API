@@ -3,7 +3,7 @@ require("dotenv").config();
 
 module.exports = {
   signAccessToken: (userId) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const payload = { userId };
 
       const secret_key = process.env.ACCESS_TOKEN_SECRET;
@@ -14,7 +14,7 @@ module.exports = {
         audience: userId,
       };
 
-      const token = await jwt.sign(payload, secret_key, options);
+      const token = jwt.sign(payload, secret_key, options);
 
       if (!token) reject(token);
 

@@ -37,6 +37,27 @@ router.post("/students", async (req, res) => {
   }
 });
 
+////////////////////////////////////////USERS ROUTES///////////////
+router.post("/user/login", async (req, res, next) => {
+  try {
+    const validUser = await userBodyValidator(req.body);
+    if (!validUser) throw new Error(validUser);
+
+    const user = await User.findOne({ email: validUser.email });
+    if (!user) throw new Error("Incorrect Email or Password");
+
+    const validPassword = await user.validatePassword(validUser.password);
+    if (!validPassword) throw new Error("Incorrect Email or Password");
+
+    const accessToken = await signAccessToken(user.id);
+    // const refreshToken = await signRefreshToken(user.id)
+
+    res.status(200).json({ accessToken });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 router.post("/user/register", async (req, res, next) => {
   try {
     const isValid = await userBodyValidator.validateAsync(req.body);
@@ -90,7 +111,7 @@ router.delete("/students", async (req, res) => {
 
     if (!ObjectId.isValid(id)) throw new Error("Not a valid document ID.");
 
-    const deletion = await Student.deleteOne({ _id: ObjectId(id) });
+    const deletion = await Student.deleteOne({ _id: id });
 
     if (!deletion) {
       throw new Error("Could not delete the selected document.");

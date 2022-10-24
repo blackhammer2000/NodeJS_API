@@ -24,6 +24,8 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+userSchema.methods.validatePassword;
+
 const User = mongoose.model("user", userSchema);
 
 module.exports = User;
