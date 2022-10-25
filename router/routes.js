@@ -49,10 +49,11 @@ router.post("/user/login", verifyAccessToken, async (req, res, next) => {
     const validPassword = await user.validatePassword(validUser.password);
     if (!validPassword) throw new Error("Incorrect Email or Password");
 
-    const accessToken = await signAccessToken(user.id);
+    // const accessToken = await signAccessToken(user.id);
     // const refreshToken = await signRefreshToken(user.id)
 
-    res.status(200).json({ accessToken });
+    // res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken: "SJDKFBKJDSFBJKSD" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
