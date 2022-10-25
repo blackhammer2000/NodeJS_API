@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { ObjectId } = require("mongodb");
 const { studentBodyValidator, userBodyValidator } = require("../auth/authData");
-const { signAccessToken } = require("../auth/tokens");
+const { signAccessToken, verifyAccessToken } = require("../auth/tokens");
 const Student = require("../schemas/student");
 const User = require("../schemas/user");
 
@@ -38,7 +38,7 @@ router.post("/students", async (req, res) => {
 });
 
 ////////////////////////////////////////USERS ROUTES///////////////
-router.post("/user/login", async (req, res, next) => {
+router.post("/user/login", verifyAccessToken, async (req, res, next) => {
   try {
     const validUser = await userBodyValidator(req.body);
     if (!validUser) throw new Error(validUser);
@@ -58,7 +58,7 @@ router.post("/user/login", async (req, res, next) => {
   }
 });
 
-router.post("/user/register", async (req, res, next) => {
+router.post("/user/register", async (req, res) => {
   try {
     const isValid = await userBodyValidator.validateAsync(req.body);
     if (!isValid) throw new Error(`Invalid data format...`);
@@ -78,7 +78,7 @@ router.post("/user/register", async (req, res, next) => {
 
     res.status(200).json({ token: accessToken });
   } catch (err) {
-    next(err);
+    res.status(500).json({ error: err.message });
   }
 });
 

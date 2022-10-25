@@ -22,5 +22,22 @@ module.exports = {
     });
   },
 
-  verifyAccessToken: () => {},
+  verifyAccessToken: async (req, res, next) => {
+    try {
+      if (!req.headers.token) throw new Error("Unauthorized");
+      const { token } = req.headers;
+      const verifiedToken = await jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET
+      );
+
+      if (!verifiedToken) throw new Error("Unauthorized");
+      const { _id } = verifiedToken;
+      req.id = _id;
+
+      next();
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
 };
