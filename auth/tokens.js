@@ -22,7 +22,7 @@ module.exports = {
     });
   },
 
-  verifyAccessToken: async (req, res, next) => {
+  verifyAccessToken: (req, res, next) => {
     try {
       if (!req.headers.token) throw new Error("Unauthorized");
       const { token } = req.headers;
@@ -38,5 +38,23 @@ module.exports = {
     }
   },
 
-  signRefreshToken: async (req, res, next) => {},
+  signRefreshToken: async (req, res, next) => {
+    return new Promise((resolve, reject) => {
+      const payload = { userId };
+
+      const secret_key = process.env.REFRESH_TOKEN_SECRET;
+
+      const options = {
+        expiresIn: "1y",
+        issuer: "UserDbManager",
+        audience: userId,
+      };
+
+      const token = jwt.sign(payload, secret_key, options);
+
+      if (!token) reject(token);
+
+      resolve(token);
+    });
+  },
 };
