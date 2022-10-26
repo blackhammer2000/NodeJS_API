@@ -56,7 +56,6 @@ router.post("/user/login", verifyAccessToken, async (req, res) => {
     const loginAccessToken = await signAccessToken(user._id);
     const refreshToken = await signRefreshToken(user._id);
 
-    // res.status(200).json({ refreshToken });
     res.status(200).json({ loginAccessToken, refreshToken });
   } catch (err) {
     res.status(400).json({ error: err.message });
