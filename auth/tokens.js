@@ -38,7 +38,7 @@ module.exports = {
     }
   },
 
-  signRefreshToken: async (userId) => {
+  signRefreshToken: (userId) => {
     return new Promise((resolve, reject) => {
       const payload = { userId };
 
