@@ -9,9 +9,9 @@ module.exports = {
       const secret_key = process.env.ACCESS_TOKEN_SECRET;
 
       const options = {
-        expiresIn: "2min",
+        expiresIn: "10min",
         issuer: "UserDbManager",
-        audience: userId,
+        audience: `${userId}`,
       };
 
       const token = jwt.sign(payload, secret_key, options);
@@ -38,7 +38,7 @@ module.exports = {
     }
   },
 
-  signRefreshToken: async (req, res, next) => {
+  signRefreshToken: async (userId) => {
     return new Promise((resolve, reject) => {
       const payload = { userId };
 
@@ -47,7 +47,7 @@ module.exports = {
       const options = {
         expiresIn: "1y",
         issuer: "UserDbManager",
-        audience: userId,
+        audience: `${userId}`,
       };
 
       const token = jwt.sign(payload, secret_key, options);

@@ -42,9 +42,9 @@ router.post("/students", async (req, res) => {
 });
 
 ////////////////////////////////////////USERS ROUTES///////////////
-router.post("/user/login", verifyAccessToken, async (req, res, next) => {
+router.post("/user/login", verifyAccessToken, async (req, res) => {
   try {
-    const validUser = await userBodyValidator(req.body);
+    const validUser = await userBodyValidator.validateAsync(req.body);
     if (!validUser) throw new Error(validUser);
 
     const user = await User.findOne({ email: validUser.email });
@@ -53,11 +53,11 @@ router.post("/user/login", verifyAccessToken, async (req, res, next) => {
     const validPassword = await user.validatePassword(validUser.password);
     if (!validPassword) throw new Error("Incorrect Email or Password");
 
-    const accessToken = await signAccessToken(user.id);
-    const refreshToken = await signRefreshToken(user.id);
+    const loginAccessToken = await signAccessToken(user._id);
+    const refreshToken = await signRefreshToken(user._id);
 
-    // res.status(200).json({ accessToken });
-    res.status(200).json({ accessToken, refreshToken });
+    // res.status(200).json({ refreshToken });
+    res.status(200).json({ loginAccessToken, refreshToken });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
