@@ -3,7 +3,11 @@ const router = express.Router();
 
 const { ObjectId } = require("mongodb");
 const { studentBodyValidator, userBodyValidator } = require("../auth/authData");
-const { signAccessToken, verifyAccessToken } = require("../auth/tokens");
+const {
+  signAccessToken,
+  verifyAccessToken,
+  signRefreshToken,
+} = require("../auth/tokens");
 const Student = require("../schemas/student");
 const User = require("../schemas/user");
 
@@ -50,10 +54,10 @@ router.post("/user/login", verifyAccessToken, async (req, res, next) => {
     if (!validPassword) throw new Error("Incorrect Email or Password");
 
     const accessToken = await signAccessToken(user.id);
-    // const refreshToken = await signRefreshToken(user.id)
+    const refreshToken = await signRefreshToken(user.id);
 
     // res.status(200).json({ accessToken });
-    res.status(200).json({ accessToken: "SJDKFBKJDSFBJKSD" });
+    res.status(200).json({ accessToken, refreshToken });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
